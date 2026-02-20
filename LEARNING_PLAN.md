@@ -4,7 +4,7 @@
 
 | Stage | Topic | Key Concept | Exercise | Status |
 |-------|-------|-------------|----------|--------|
-| 1 | Setup & Basics | Cargo, variables, control flow | Guessing game (CLI) | Not Started |
+| 1 | Setup & Basics | Cargo, variables, control flow | Guessing game (CLI) | Complete |
 | 2 | Ownership & Borrowing | Move semantics, references, lifetimes | String manipulation tool | Not Started |
 | 3 | Structs, Enums & Matching | Type system, Option\<T\>, pattern matching | Task tracker (Todo CLI) | Not Started |
 | 4 | Error Handling | Result\<T,E\>, `?` operator, custom errors | CSV file parser | Not Started |
@@ -95,7 +95,7 @@ graph LR
 - Functions and return values
 - if/else, loops (loop, while, for)
 **Exercise**: Build a number guessing game (CLI)
-**Status**: Not Started
+**Status**: Complete
 
 ## Stage 2: Ownership & Borrowing (The Big One)
 **Goal**: Understand Rust's core memory model

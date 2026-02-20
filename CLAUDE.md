@@ -49,3 +49,4 @@ exercises/                # Exercise projects (one cargo project per stage)
 - Exercises should be built incrementally: scaffold first, then ask the learner to implement core logic
 - Always run `cargo clippy` and `cargo test` after changes
 - Update stage status in `LEARNING_PLAN.md` as exercises are completed
+- After completing each exercise, add a **"Lessons Learned"** section to the stage's doc file (`docs/stage-XX-*.md`) capturing practical insights discovered during the exercise — compiler tricks, idiomatic patterns, gotchas encountered

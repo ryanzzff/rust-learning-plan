@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::RngExt;
 use std::cmp::Ordering;
 use std::io;
 
@@ -8,19 +8,34 @@ fn main() {
 
     let secret_number = rand::rng().random_range(1..=100);
 
-    // TODO(human): Implement the game loop
-    // The loop should:
-    // 1. Prompt the user to enter a guess
-    // 2. Read their input from stdin into a String
-    // 3. Parse the input into a u32 (handle invalid input gracefully)
-    // 4. Compare the guess to secret_number using .cmp() and a match expression
-    // 5. Print "Too small!", "Too big!", or "You win!" accordingly
-    // 6. Break out of the loop when they guess correctly
-    //
-    // Hints:
-    //   - Use `loop { }` for an infinite loop
-    //   - Use `io::stdin().read_line(&mut guess)` to read input
-    //   - Use `guess.trim().parse::<u32>()` to convert string to number
-    //   - The parse returns a Result — use match to handle Ok/Err
-    //   - secret_number.cmp(&guess) returns Ordering::Less/Equal/Greater
+    loop {
+        let mut guess = String::new();
+        io::stdin().read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse::<u32>() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a valid number");
+                continue;
+            }
+        };
+
+        match guess {
+            1..=100 => {},
+            _ => {
+                println!("Please enter a number between 1 and 100");
+                continue;
+            }
+        }
+        
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
 }

@@ -124,6 +124,62 @@ for i in (0..5).rev() {  // reverse: 4, 3, 2, 1, 0
 | Using `==` to compare strings as `&str` vs `String` | Both work with `==`, but watch ownership |
 | Array index out of bounds | Rust panics at runtime — no silent memory access |
 
+## Lessons Learned (from the Guessing Game exercise)
+
+### The Compiler Is Your Best Teacher
+
+Rust's compiler errors include the fix. When we used `rand::Rng` but the method `random_range` lived on `rand::RngExt`, the compiler said exactly what to do:
+
+```
+help: trait `RngExt` which provides `random_range` is implemented but not in scope
+  |
+1 + use rand::RngExt;
+```
+
+When stuck, read the full error — especially the `help:` lines at the bottom.
+
+### Variable Shadowing for Type Conversion
+
+You can reuse a variable name while changing its type. This is idiomatic for parsing pipelines:
+
+```rust
+let mut guess = String::new();           // guess is a String
+io::stdin().read_line(&mut guess);
+let guess: u32 = guess.trim().parse()?;  // guess is now a u32
+```
+
+No need for `guess_string` / `guess_number` — shadowing keeps the code clean.
+
+### `match` on Result for Graceful Error Recovery
+
+Instead of `.expect()` (which crashes), use `match` + `continue` to let the user retry:
+
+```rust
+let guess: u32 = match guess.trim().parse::<u32>() {
+    Ok(num) => num,
+    Err(_) => {
+        println!("Please enter a valid number");
+        continue;   // skip to next loop iteration
+    }
+};
+```
+
+This pattern — `match` on `Result`, `continue` on `Err` — is common in interactive programs.
+
+### Range Patterns in `match`
+
+Rust's `match` supports range patterns with `..=` for inclusive ranges, useful for input validation:
+
+```rust
+match guess {
+    1..=100 => {},   // valid range — do nothing
+    _ => {
+        println!("Please enter a number between 1 and 100");
+        continue;
+    }
+}
+```
+
 ## Exercise: Guessing Game
 
 Build a CLI game where the program picks a random number (1-100) and the user guesses until they get it right. Uses: `rand` crate, `loop`, `match`, reading stdin, parsing strings to numbers.
